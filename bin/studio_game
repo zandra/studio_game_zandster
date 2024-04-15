@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require_relative "../lib/studio_game/game"
+require_relative "../lib/studio_game/player"
+
+
+
+#### Winner Takes ALL
+game_1 = StudioGame::Game.new("winner takes all")
+
+path = File.join(__dir__,"players.csv")
+
+game_1.load_players(ARGV.shift || path)
+
+
+### Play the game on the command line
+loop do
+  print "\nHow many rounds? (Type 'quit' to exit game) "
+  answer = gets.chomp.downcase # 'gets' takes the command line input, also downcase can be called on a digit without choking
+  case answer
+  when /^[0-9]+$/
+    puts "Enjoy your #{answer} rounds ..."
+    game_1.play_game(answer.to_i)
+  when "quit", "exit", "q"
+    break
+  else
+    puts "Please enter a number or 'q' to exit"
+  end
+end
+
+game_1.end_game
+game_1.save_scores_to_file
