@@ -48,6 +48,26 @@ module StudioGame
       end
     end
 
+    def test_high_number_rolled_super_boosts_player_health_if_pie_count_is_three
+      @game.add_player(@player_1)
+      @player_1.pies_found = 3
+      @game.stub(:roll_die, 5) do
+        ## intial health of 10 is boosted by 50 to equal 60
+        @game.play_game()
+        assert_equal 60, @player_1.health 
+      end
+    end
+
+    def test_high_number_rolled_does_not_super_boost_player_health_if_pie_count_is_under_three
+      @game.add_player(@player_1)
+      @player_1.pies_found = 2
+      @game.stub(:roll_die, 5) do
+        ## intial health of 10 is boosted by 15 to equal 25
+        @game.play_game()
+        assert_equal 25, @player_1.health 
+      end
+    end
+
     def test_highest_score_player_wins
       @game.add_player(@player_1)
       @game.add_player(@player_2)
