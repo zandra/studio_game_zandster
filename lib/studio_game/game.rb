@@ -75,6 +75,8 @@ module StudioGame
         treasures = player.treasure_found.map {|k,v| "#{k.capitalize}: #{v}"}
         puts treasures
         puts "TOTAL: #{player.points}"
+        ### number of pies found
+        puts "(Pie count: #{player.pies_found})"
       end
     end
 
@@ -98,6 +100,7 @@ module StudioGame
 
       puts "\nThe available treasures are:"
       puts TreasureChest.treasure_items
+      puts "Bonus: Players who find 3 pies will get a sweet treat 🥧 🥧 🥧"
     
       puts "\nBefore playing:"
       puts @players
@@ -129,11 +132,18 @@ module StudioGame
             puts "#{p.name} got skipped 😐"
           else
             puts "#{p.name} got boosted 🌟"
-            p.boost
+            p.pies_found >= 3 ? p.super_boost : p.boost
           end
           ### find a treasure
           treasure = TreasureChest.find_treasure
-          puts "#{p.name} found a #{treasure.name} worth #{treasure.value} points"
+          ### is it a pie?
+          if treasure.name == "pie"
+            p.find_a_pie
+            puts "#{p.name} found a #{treasure.name} worth #{treasure.value} points (Pie count: #{p.pies_found})"
+          else
+            puts "#{p.name} found a #{treasure.name} worth #{treasure.value} points"
+          end
+          ### add treasure to player's points
           p.add_treasure(treasure.name, treasure.value) 
           puts "\n"
         end

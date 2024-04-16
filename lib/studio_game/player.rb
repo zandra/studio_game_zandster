@@ -6,12 +6,13 @@ module StudioGame
     include Playable
 
     attr_reader :treasure_found, :points
-    attr_accessor :name, :health
+    attr_accessor :name, :health, :pies_found
 
     def initialize(name, health=50)
       @name = name.split.map(&:capitalize).join(' ')
       @health = health
       @treasure_found = Hash.new(0)
+      @pies_found = 0
     end
 
     def formatted_name(name)
@@ -20,6 +21,10 @@ module StudioGame
 
     def add_treasure(name, value)
       @treasure_found[name] += value
+    end
+
+    def find_a_pie
+      @pies_found += 1
     end
 
     def name=(new_name)
