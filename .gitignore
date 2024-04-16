@@ -1,3 +1,4 @@
 .DS_Store
+*.gem
 RUBY_halps.md
 player_high_scores.txt
